@@ -1,0 +1,66 @@
+html {
+    height: 100%;
+    scroll-behavior: smooth;
+
+}
+
+body {
+
+    margin: 0;
+
+
+
+
+}
+
+header {
+
+    background-color: rgb(168, 19, 19);
+    height: 100px;
+    margin-top: 0;
+    color: white;
+
+
+}
+
+header p {
+
+    display: inline;
+    padding: 5px;
+
+
+}
+
+header img {
+
+    justify-content: left;
+    width: 40px;
+
+}
+
+.carrinho {
+
+    width: 30px;
+
+}
+
+.caixas_de_produto {
+
+    padding: 40px;
+    width: 300px;
+    display: inline;
+    border-radius: 10px;
+}
+
+
+
+footer {
+
+    position: static;
+    margin-top: auto;
+    background-color: rgb(168, 19, 19);
+    height: 100px;
+    margin-top: 100%;
+
+
+}
