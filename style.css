@@ -5,6 +5,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
+    -webkit-box-sizing: border-box;
 
 }
 
@@ -24,11 +25,21 @@ body {
 
 }
 
-header {
+.icone_site{
 
+    width: 100px;
+    justify-content: center;
+    text-align: left;
+    display: inline;
+
+}
+
+header {
+ /*Vamos discutir as cor do site, ta feio*/
     background-color: rgb(235, 182, 10);
-    height: 100px;
+    height: fit-content;
     color: white;
+
 
 
 }
@@ -42,19 +53,25 @@ header {
 
 .icones_header {
     display: flex;
-    position: center;
     width: 50px;
     height: 30px;
 }
 
 /*Foi só para centralizar, pode mudar o nome da classe se quiser.*/
 .tentando-algo {
-    width: 50px;
-    height: 30px;
+    width: 40px;
     justify-content: right;
     margin-top: 30px;
 }
 
+.carrinho{
+    width: 35px;
+    justify-content: right;
+    margin-top: 30px;
+
+}
+
+/*BARRA DE PESQUISAR TA FEIA*/
 .input-group {
     display: flex;
     justify-content: center;
@@ -84,10 +101,43 @@ header {
     outline: none;
 }
 
+/*CARROSSEL DE IMAGEM*/
+
+.gallery {
+  background: #EEE;
+
+}
+
+.gallery-cell {
+  width: 66%;
+  height: 500px;
+  margin-right: 10px;
+  counter-increment: gallery-cell;
+}
+
+/* cell number */
+.gallery-cell:before {
+  display: block;
+  text-align: center;
+  content: counter(gallery-cell);
+  line-height: 200px;
+  font-size: 80px;
+  color: white;
+}
+
+.Imagem_Carrossel{
+    display: flex;
+    width: 100%;
+    height: 500px;
+    
+
+}
+
+
 
 
 ul {
-    background-color: brown;
+    background-color:rgb(235, 182, 10);
     color: white;
     text-align: center;
     display: flex;
@@ -96,20 +146,6 @@ ul {
 
 }
 
-/*Melhorar essa parte do código dps, tipo encontrar uma imagem melhor pra nn precisar de duas coisas
-header img {
-    align-items: center;
-    justify-content: right;
-    width: 40px;
-}
-
-.carrinho {
-
-    width: 30px;
-    margin-right: 20px;
-    justify-content: right;
-}
-    */
 
 .caixas_de_produto {
 
@@ -129,5 +165,14 @@ footer {
     height: 100px;
     margin-top: 100%;
 
+
+}
+
+footer img{
+    width: 100px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    
 
 }
