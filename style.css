@@ -38,16 +38,22 @@ header {
     text-align: right;
     justify-content: right;
     margin-left: 90%;
-
 }
 
 .icones_header {
     display: flex;
+    position: center;
     width: 50px;
     height: 30px;
-
 }
 
+/*Foi só para centralizar, pode mudar o nome da classe se quiser.*/
+.tentando-algo {
+    width: 50px;
+    height: 30px;
+    justify-content: right;
+    margin-top: 30px;
+}
 
 .input-group {
     display: flex;
