@@ -1,48 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Miranda+Sans:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+
+}
+
+
 html {
     height: 100%;
+    width: 100%;
     scroll-behavior: smooth;
 
 }
 
 body {
 
-    margin: 0;
-
-
-
+    min-height: 100vh;
+    max-width: 100%;
+    
 
 }
 
 header {
 
-    background-color: rgb(168, 19, 19);
+    background-color: rgb(235, 182, 10);
     height: 100px;
-    margin-top: 0;
     color: white;
 
 
 }
 
-header p {
-
-    display: inline;
-    padding: 5px;
-
+/*NAO CONFIO NESSE CODIGO MAS FUNCIONOU*/
+.icones_header_posicao {
+    text-align: right;
+    justify-content: right;
+    margin-left: 90%;
 
 }
 
+.icones_header {
+    display: flex;
+    width: 50px;
+    height: 30px;
+
+}
+
+
+.input-group {
+    display: flex;
+    justify-content: center;
+    padding: 8px 16px 8px 8px;
+    border-radius: 24px;
+    gap: 8px;
+}
+
+.input-icon {
+    background-color: black;
+    display: flex;
+    min-width: 32px;
+    min-height: 32px;
+    border-radius: 100%;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.input-field {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+}
+
+.input-field:focus {
+    outline: none;
+}
+
+
+
+ul {
+    background-color: brown;
+    color: white;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+/*Melhorar essa parte do código dps, tipo encontrar uma imagem melhor pra nn precisar de duas coisas
 header img {
-
-    justify-content: left;
+    align-items: center;
+    justify-content: right;
     width: 40px;
-
 }
 
 .carrinho {
 
     width: 30px;
-
+    margin-right: 20px;
+    justify-content: right;
 }
+    */
 
 .caixas_de_produto {
 
@@ -58,7 +119,7 @@ footer {
 
     position: static;
     margin-top: auto;
-    background-color: rgb(168, 19, 19);
+    background-color: rgb(235, 182, 10);
     height: 100px;
     margin-top: 100%;
 
