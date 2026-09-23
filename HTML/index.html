@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eskillows | </title>
+    <title>Eskillows | Tecnologia referência!</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css"
         integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg=="
@@ -20,49 +20,63 @@
 <body>
     <header>
 
-        <!--HEADER - TUDO RELACIOANDO; IMAGEN, CATEGORIAS-->
-        <div class="parte_esquerda">
-            <!--IMAGEM DO ESQUILO TA ATRAPALHANDO A BARRA DE PESQUISA E OS ICONES DO LADO DIREITO, VOU VER DEPOIS COMO ALTERA ELE ps.Siqueira-->
-            <a href=""><img src="/imagens/site.png" alt="" class="icone_site"></a>
+        <!--HEADER-->
 
-        </div>
+        <div class="header-header">
+            <a href="/HTML/index.html"><img src="/imagens/site.png" alt="" class="icone_site"></a>
+            <div class="icones-header-">
 
-        <div class="icones_header_posicao">
-            <div class="icones_header">
+
                 <a href=""><img src="/imagens/icon coracao(1).png" alt="" class="tentando-algo"></a>
-                <a href="/HTML/login.html"><img src="/imagens/icon-removebg-preview.png" alt="" class="tentando-algo"></a>
-                <a href=""><img src="/imagens/vista-lateral-vazia-do-carrinho-de-compras.png" alt="" class="carrinho"></a>
-                
+                <a href="/HTML/login.html"><img src="/imagens/icon-removebg-preview.png" alt=""
+                        class="tentando-algo"></a>
+                <a href=""><img src="/imagens/vista-lateral-vazia-do-carrinho-de-compras.png" alt=""
+                        class="carrinho"></a>
+
+
             </div>
         </div>
 
         <!--PESQUISA-->
-        <!--O CSS DELA NN ESTA FUNCIONANDO, VOU VER DEPOIS. PS SIQUEIRA-->
         <div id="container">
             <div class="input-group">
                 <div class="input-icon">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
-                <input id="search" type="text" class="inpu-field" placeholder="Pesquisar">
+                <input id="search" type="text" class="input-field" placeholder=" Pesquisar">
             </div>
 
         </div>
 
+        <section class="header-categoria">
+                    <ul class="lista-horizontal">
+                        <li>Eletrodomesticos</li>
+                        <li>Celulares</li>
+                        <li>Periféricos</li>
+                        <li>Videogames</li>
+                    </ul>
+        </section>
+
+
     </header>
 
- 
+<!---IMAGENS DO CARROSSEL, MUDAR ELAS |PS.SIQUEIRA-->
 
-<div class="gallery js-flickity"
-  data-flickity-options='{ "wrapAround": true }'>
-  <div class="gallery-cell"><img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt="" class="Imagem_Carrossel"></div>
-  <div class="gallery-cell"><img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt="" class="Imagem_Carrossel"></div>
-  <div class="gallery-cell"><img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt="" class="Imagem_Carrossel"></div>
-  <div class="gallery-cell"><img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt="" class="Imagem_Carrossel"></div>
-  <div class="gallery-cell"><img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt="" class="Imagem_Carrossel"></div>
-</div>
+    <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
+        <div class="gallery-cell"><img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt=""
+                class="Imagem_Carrossel"></div>
+        <div class="gallery-cell"><img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt=""
+                class="Imagem_Carrossel"></div>
+        <div class="gallery-cell"><img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt=""
+                class="Imagem_Carrossel"></div>
+        <div class="gallery-cell"><img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt=""
+                class="Imagem_Carrossel"></div>
+        <div class="gallery-cell"><img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt=""
+                class="Imagem_Carrossel"></div>
+    </div>
 
 
-   <!--COMENTADO POR ENQUANTO, MEXENDO NA HEADER E FOOTER ps.Siqueira-->
+    <!--COMENTADO POR ENQUANTO, MEXENDO NA HEADER E FOOTER ps.Siqueira-->
 
     <!-- <section class="sessoes">
 
@@ -75,17 +89,19 @@
 
     <footer>
 
-    <ul>
-        <li>Sobre ESKILLOWS</li>
-        <li></li>
-    </ul>
+        <ul>
+            <li>Sobre ESKILLOWS</li>
+            <li></li>
+        </ul>
 
-    <img src="/imagens/ESQ(1).png" alt="">
-    <p>Direitos reservados: Anna Luisa, Lethicia Hikary, Erik Matheus, Giovanna Siqueira, Ewerton Klaiver</p>
+        <div class="footer-info">
+            <img src="/imagens/ESQ(1).png" alt="">
+            <p>Direitos reservados: Anna Luisa, Lethicia Hikary, Erik Matheus, Giovanna Siqueira, Ewerton Klaiver</p>
+        </div>
+    
+    </footer> 
 
-    </footer>
 
- 
 
 
     <script src="/script.js"></script>

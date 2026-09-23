@@ -18,60 +18,42 @@ html {
 }
 
 body {
-
     min-height: 100vh;
     max-width: 100%;
-    
-
 }
 
-.icone_site{
-
-    width: 100px;
-    justify-content: center;
-    text-align: left;
-    display: inline;
-
-}
-
+/*HEADER*/
 header {
- /*Vamos discutir as cor do site, ta feio*/
     background-color: rgb(235, 182, 10);
-    height: fit-content;
     color: white;
-
-
-
 }
 
-/*NAO CONFIO NESSE CODIGO MAS FUNCIONOU*/
-.icones_header_posicao {
-    text-align: right;
-    justify-content: right;
-    margin-left: 90%;
-}
-
-.icones_header {
+.header-header {
     display: flex;
-    width: 50px;
-    height: 30px;
+   text-align: center;
+   justify-content: center;
+
 }
 
-/*Foi só para centralizar, pode mudar o nome da classe se quiser.*/
+.icone_site {
+    display: flex;
+    width: 100px;
+    align-items: center;
+    justify-content: left;
+}
+
 .tentando-algo {
     width: 40px;
     justify-content: right;
-    margin-top: 30px;
 }
 
-.carrinho{
+.carrinho {
     width: 35px;
-    justify-content: right;
+    justify-content: center;
     margin-top: 30px;
-
 }
 
-/*BARRA DE PESQUISAR TA FEIA*/
+/*BARRA DE PESQUISAR*/
 .input-group {
     display: flex;
     justify-content: center;
@@ -94,57 +76,83 @@ header {
 .input-field {
     width: 100%;
     border: none;
-    background-color: transparent;
+    border-radius: 6px;
+
 }
 
 .input-field:focus {
     outline: none;
 }
 
+.header-categoria{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    list-style: none;
+
+}
+
+.lista-horizontal{
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 5px;
+    gap: 20px;
+}
+
+
+
 /*CARROSSEL DE IMAGEM*/
 
 .gallery {
-  background: #EEE;
+    /*background do carrossel*/
+    background: #b10000;
 
 }
 
 .gallery-cell {
-  width: 66%;
-  height: 500px;
-  margin-right: 10px;
-  counter-increment: gallery-cell;
+    width: 66%;
+    height: 500px;
+    margin-right: 10px;
+    counter-increment: gallery-cell;
 }
 
 /* cell number */
 .gallery-cell:before {
-  display: block;
-  text-align: center;
-  content: counter(gallery-cell);
-  line-height: 200px;
-  font-size: 80px;
-  color: white;
+    display: block;
+    text-align: center;
+    line-height: 200px;
+    font-size: 80px;
+    color: white;
 }
 
-.Imagem_Carrossel{
+.Imagem_Carrossel {
     display: flex;
     width: 100%;
-    height: 500px;
-    
-
+    height: 100%;
 }
 
 
 
-
-ul {
-    background-color:rgb(235, 182, 10);
-    color: white;
-    text-align: center;
-    display: flex;
+/*FOOTER*/
+footer {
+    position: static;
+    height: 100px;
+    margin-top: 100%;
+    background-color: rgb(235, 182, 10);
     align-items: center;
     justify-content: center;
 
 }
+
+.footer-info{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+
+
+}
+
 
 
 .caixas_de_produto {
@@ -157,22 +165,13 @@ ul {
 
 
 
-footer {
-
-    position: static;
-    margin-top: auto;
-    background-color: rgb(235, 182, 10);
-    height: 100px;
-    margin-top: 100%;
 
 
-}
-
-footer img{
+footer img {
     width: 100px;
     display: flex;
     text-align: center;
     justify-content: center;
-    
+
 
 }
