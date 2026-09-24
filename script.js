@@ -56,10 +56,10 @@ const fone = new Produto("cod001", "Fone", 220, 10);
 const teclado = new Produto("cod002", "Teclado", 250, 5);
 const mouse = new Produto("cod003", "Mouse", 150, 2);
 const microfone = new Produto("cod004", "Microfone", 250, 10);
-const cadeira = new Produto("cod005", "Cadeira Gamer", 1000, 15);
-const mousepad = new Produto("cod006", "Mousepad", 70, 12);
+const mousepad = new Produto("cod005", "Mousepad", 1000, 15);
+const cadeira = new Produto("cod006", "Cadeira Gamer", 70, 12);
 
-const produtos = [fone, teclado, mouse, microfone, cadeira, mousepad];
+const produtos = [fone, teclado, mouse, microfone, mousepad, cadeira];
 
 // CLASSE ITEMCARRINH
 
