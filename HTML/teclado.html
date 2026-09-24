@@ -11,13 +11,10 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
 
     <link rel="stylesheet" href="/style.css">
-
     <link rel="icon" type="image" href="/imagens/site.ico">
 </head>
 
 <body>
-
-    <!-- HEADER -->
 
     <header>
 
@@ -29,53 +26,33 @@
                     class="icone_site">
             </a>
 
-             <div class="icones-header-">
+            <div class="icones-header-">
 
-                 <a href="">
-                    <img src="/imagens/icon-coracao.png"
-                        alt="Favoritos"
-                        class="tentando-algo">
-                </a>
-
-
-                 <a href="/HTML/login.html">
-                    <img src="/imagens/icone-perfil-branco.png"
-                        alt="Login"
-                        class="tentando-algo">
-                </a>
-
-                <a href="">
+                <a href="/HTML/carrinho.html">
                     <img src="/imagens/carrinho branco.png"
-                        alt="Carrinho de Compras"
-                        class="carrinho"
-                        id="carrinho">
+                        alt="Carrinho"
+                        class="carrinho">
                 </a>
+
+            </div>
 
         </div>
 
     </header>
 
 
-    <!-- PAGINA DO PRODUTO -->
-
     <main class="pagina-produto">
 
         <div class="detalhes-produto">
 
-
-            <!-- LADO DA IMAGEM -->
-
             <div class="area-imagem-produto">
 
-                <img
-                    src="/imagens/teclado.jpeg"
+                <img src="/imagens/teclado.jpeg"
                     alt="Teclado Gamer"
                     class="imagem-detalhes">
 
             </div>
 
-
-            <!-- LADO DAS INFORMAÇÕES -->
 
             <div class="informacoes-produto">
 
@@ -89,10 +66,22 @@
                     R$ 250,00
                 </p>
 
-                <p class="estoque-produto">
+                <!-- O JS atualiza o estoque -->
+
+                <p class="estoque-produto"
+                    id="mensagem-cod002">
+
                     <i class="fa-solid fa-circle-check"></i>
                     Produto disponível em estoque
+
                 </p>
+
+                <p class="quantidade-estoque">
+                    Estoque:
+                    <span id="estoque-cod002">5</span>
+                    unidade(s)
+                </p>
+
 
                 <div class="descricao-produto">
 
@@ -108,16 +97,13 @@
                 </div>
 
 
-                <!-- QUANTIDADE -->
-
                 <div class="area-quantidade">
 
                     <label for="quantidade">
                         Quantidade:
                     </label>
 
-                    <input
-                        type="number"
+                    <input type="number"
                         id="quantidade"
                         value="1"
                         min="1">
@@ -125,11 +111,12 @@
                 </div>
 
 
-                <!-- Depois vamos ligar esse botão com o carrinho -->
+                <button class="botao-carrinho addcarrinho"
+                    value="cod002">
 
-                <button class="botao-carrinho addcarrinho" value="cod002">
                     <i class="fa-solid fa-cart-shopping"></i>
                     Adicionar ao carrinho
+
                 </button>
 
 
@@ -148,14 +135,11 @@
     </main>
 
 
-    <!-- FOOTER -->
-
     <footer>
 
         <div class="footer-info">
 
-            <img
-                src="/imagens/ESQ(1).png"
+            <img src="/imagens/ESQ(1).png"
                 alt="Logo Eskillows">
 
             <p>
