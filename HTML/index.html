@@ -4,108 +4,377 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Eskillows | Tecnologia referência!</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css"
-        integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- Icones que estamos usando no site -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
+
+    <!-- Puxa o nosso CSS -->
     <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+
+    <!-- CSS que faz o carrossel funcionar -->
+    <link rel="stylesheet"
+        href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+
     <link rel="icon" type="image" href="/imagens/site.ico">
-
-
 
 </head>
 
 <body>
+
+    <!-- HEADER -->
+
     <header>
 
-        <!--HEADER-->
-
         <div class="header-header">
-            <a href="/HTML/index.html"><img src="/imagens/site.png" alt="" class="icone_site"></a>
+
+            <a href="/HTML/index.html">
+                <img src="/imagens/site.png"
+                    alt="Logo Eskillows"
+                    class="icone_site">
+            </a>
+
             <div class="icones-header-">
 
+                <a href="">
+                    <img src="/imagens/icon coracao(1).png"
+                        alt="Favoritos"
+                        class="tentando-algo">
+                </a>
 
-                <a href=""><img src="/imagens/icon coracao(1).png" alt="" class="tentando-algo"></a>
-                <a href="/HTML/login.html"><img src="/imagens/icon-removebg-preview.png" alt=""
-                        class="tentando-algo"></a>
-                <a href=""><img src="/imagens/vista-lateral-vazia-do-carrinho-de-compras.png" alt=""
-                        class="carrinho"></a>
+                <a href="/HTML/login.html">
+                    <img src="/imagens/icon-removebg-preview.png"
+                        alt="Login"
+                        class="tentando-algo">
+                </a>
 
+                <!-- Depois vamos ligar com o carrinho que esta sendo feito -->
+                <a href="">
+                    <img src="/imagens/vista-lateral-vazia-do-carrinho-de-compras.png"
+                        alt="Carrinho"
+                        class="carrinho">
+                </a>
 
             </div>
+
         </div>
 
-        <!--PESQUISA-->
+
+        <!-- BARRA DE PESQUISA -->
+
         <div id="container">
+
             <div class="input-group">
+
+                <!-- Coloca a lupa do lado da barra -->
                 <div class="input-icon">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
-                <input id="search" type="text" class="input-field" placeholder=" Pesquisar">
+
+                <input
+                    id="search"
+                    type="text"
+                    class="input-field"
+                    placeholder="Pesquisar">
+
             </div>
 
         </div>
 
-        <section class="header-categoria">
-                    <ul class="lista-horizontal">
-                        <li>Eletrodomesticos</li>
-                        <li>Celulares</li>
-                        <li>Periféricos</li>
-                        <li>Videogames</li>
-                    </ul>
-        </section>
 
+        <!-- CATEGORIA -->
+
+        <section class="header-categoria">
+
+            <!-- Quando clicar vai descer para os produtos -->
+            <a href="#produtos" class="categoria-gamer">
+                Produtos Gamer
+            </a>
+
+        </section>
 
     </header>
 
-<!---IMAGENS DO CARROSSEL, MUDAR ELAS |PS.SIQUEIRA-->
 
-    <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
-        <div class="gallery-cell"><img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt=""
-                class="Imagem_Carrossel"></div>
-        <div class="gallery-cell"><img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt=""
-                class="Imagem_Carrossel"></div>
-        <div class="gallery-cell"><img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt=""
-                class="Imagem_Carrossel"></div>
-        <div class="gallery-cell"><img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt=""
-                class="Imagem_Carrossel"></div>
-        <div class="gallery-cell"><img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt=""
-                class="Imagem_Carrossel"></div>
+    <!-- CARROSSEL -->
+
+    <!-- Os mesmos 6 produtos do catalogo aparecem aqui -->
+    <div class="gallery js-flickity"
+        data-flickity-options='{ "wrapAround": true }'>
+
+
+        <!-- FONE -->
+
+        <div class="gallery-cell">
+
+            <img
+                src="/imagens/fone.jpeg"
+                alt="Fone Gamer"
+                class="Imagem_Carrossel">
+
+        </div>
+
+
+        <!-- TECLADO -->
+
+        <div class="gallery-cell">
+
+            <img
+                src="/imagens/teclado.jpeg"
+                alt="Teclado Gamer"
+                class="Imagem_Carrossel">
+
+        </div>
+
+
+        <!-- MOUSE -->
+
+        <div class="gallery-cell">
+
+            <img
+                src="/imagens/mouse.jpeg"
+                alt="Mouse Gamer"
+                class="Imagem_Carrossel">
+
+        </div>
+
+
+        <!-- MICROFONE -->
+
+        <div class="gallery-cell">
+
+            <!-- O microfone esta como jpg e os outros como jpeg -->
+            <img
+                src="/imagens/microfone.jpg"
+                alt="Microfone Gamer"
+                class="Imagem_Carrossel">
+
+        </div>
+
+
+        <!-- MOUSE PAD -->
+
+        <div class="gallery-cell">
+
+            <img
+                src="/imagens/mousepad.jpeg"
+                alt="Mouse Pad Gamer"
+                class="Imagem_Carrossel">
+
+        </div>
+
+
+        <!-- CADEIRA -->
+
+        <div class="gallery-cell">
+
+            <img
+                src="/imagens/cadeira.jpeg"
+                alt="Cadeira Gamer"
+                class="Imagem_Carrossel">
+
+        </div>
+
     </div>
 
 
-    <!--COMENTADO POR ENQUANTO, MEXENDO NA HEADER E FOOTER ps.Siqueira-->
+    <!-- CATALOGO DOS PRODUTOS -->
 
-    <!-- <section class="sessoes">
+    <section class="produtos" id="produtos">
 
-        <img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt="" class="caixas_de_produto">
-        <img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt="" class="caixas_de_produto">
-        <img src="/imagens/gigxels-headphones-6159058_1920.jpg" alt="" class="caixas_de_produto">
+        <h2>Produtos Gamer</h2>
 
-    </section>-->
+        <!-- Coloca todos os produtos dentro da mesma area -->
+        <div class="lista-produtos">
 
+
+            <!-- FONE -->
+
+            <a href="/HTML/fone.html" class="link-produto">
+
+                <div class="produto">
+
+                    <img
+                        src="/imagens/fone.jpeg"
+                        alt="Fone Gamer"
+                        class="imagem-produto">
+
+                    <h3>Fone Gamer</h3>
+
+                    <p class="preco">
+                        R$ 220,00
+                    </p>
+
+                    <p class="ver-produto">
+                        Ver produto
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <!-- TECLADO -->
+
+            <a href="/HTML/teclado.html" class="link-produto">
+
+                <div class="produto">
+
+                    <img
+                        src="/imagens/teclado.jpeg"
+                        alt="Teclado Gamer"
+                        class="imagem-produto">
+
+                    <h3>Teclado Gamer</h3>
+
+                    <p class="preco">
+                        R$ 250,00
+                    </p>
+
+                    <p class="ver-produto">
+                        Ver produto
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <!-- MOUSE -->
+
+            <a href="/HTML/mouse.html" class="link-produto">
+
+                <div class="produto">
+
+                    <img
+                        src="/imagens/mouse.jpeg"
+                        alt="Mouse Gamer"
+                        class="imagem-produto">
+
+                    <h3>Mouse Gamer</h3>
+
+                    <p class="preco">
+                        R$ 150,00
+                    </p>
+
+                    <p class="ver-produto">
+                        Ver produto
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <!-- MICROFONE -->
+
+            <a href="/HTML/microfone.html" class="link-produto">
+
+                <div class="produto">
+
+                    <img
+                        src="/imagens/microfone.jpg"
+                        alt="Microfone Gamer"
+                        class="imagem-produto">
+
+                    <h3>Microfone Gamer</h3>
+
+                    <p class="preco">
+                        R$ 250,00
+                    </p>
+
+                    <p class="ver-produto">
+                        Ver produto
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <!-- MOUSE PAD -->
+
+            <a href="/HTML/mousepad.html" class="link-produto">
+
+                <div class="produto">
+
+                    <img
+                        src="/imagens/mousepad.jpeg"
+                        alt="Mouse Pad Gamer"
+                        class="imagem-produto">
+
+                    <h3>Mouse Pad Gamer</h3>
+
+                    <p class="preco">
+                        R$ 70,00
+                    </p>
+
+                    <p class="ver-produto">
+                        Ver produto
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <!-- CADEIRA -->
+
+            <a href="/HTML/cadeira.html" class="link-produto">
+
+                <div class="produto">
+
+                    <img
+                        src="/imagens/cadeira.jpeg"
+                        alt="Cadeira Gamer"
+                        class="imagem-produto">
+
+                    <h3>Cadeira Gamer</h3>
+
+                    <p class="preco">
+                        R$ 1.000,00
+                    </p>
+
+                    <p class="ver-produto">
+                        Ver produto
+                    </p>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
 
     <footer>
 
-        <ul>
-            <li>Sobre ESKILLOWS</li>
-            <li></li>
-        </ul>
-
         <div class="footer-info">
-            <img src="/imagens/ESQ(1).png" alt="">
-            <p>Direitos reservados: Anna Luisa, Lethicia Hikary, Erik Matheus, Giovanna Siqueira, Ewerton Klaiver</p>
+
+            <img
+                src="/imagens/ESQ(1).png"
+                alt="Logo Eskillows">
+
+            <p>
+                Direitos reservados: Anna Luisa, Lethicia Hikary,
+                Erik Matheus, Giovanna Siqueira, Ewerthon Klaiver
+            </p>
+
         </div>
-    
-    </footer> 
 
-
-
+    </footer>
 
     <script src="/script.js"></script>
-    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+
+    <script
+        src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js">
+    </script>
+
 </body>
 
 </html>
