@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Carrinho | Eskillows</title>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image" href="../imagens/site.ico">
+</head>
+
+<body>
+
+    <header>
+
+        <div class="header-header">
+
+            <a href="index.html" class="brand-lockup">
+                <img src="../imagens/site.png"
+                    alt="Logo Eskillows"
+                    class="icone_site">
+                <img src="../imagens/LOGO%20ESQ.png" alt="" aria-hidden="true" class="brand-wordmark">
+            </a>
+
+            <div class="icones-header-">
+
+                <a href="login.html" aria-label="Entrar ou criar conta">
+                    <img src="../imagens/icone-perfil-branco.png" alt="Minha conta" class="tentando-algo">
+                </a>
+
+                <a href="carrinho.html">
+                    <img src="../imagens/carrinho branco.png"
+                        alt="Carrinho"
+                        class="carrinho">
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <main class="pagina-carrinho">
+
+        <div class="caixa-carrinho">
+
+            <h1>
+                <i class="fa-solid fa-cart-shopping"></i>
+                Meu Carrinho
+            </h1>
+
+            <section class="carrinho-conta" aria-label="Identificação da conta">
+                <div class="carrinho-conta-icone" aria-hidden="true">
+                    <i class="fa-regular fa-user"></i>
+                </div>
+                <div class="carrinho-conta-texto">
+                    <strong>Entre na sua conta</strong>
+                    <p>Seu usuário aparecerá aqui quando a autenticação estiver integrada.</p>
+                </div>
+                <a href="login.html">Entrar</a>
+            </section>
+
+
+            <ul id="lista-carrinho"></ul>
+
+            <p id="carrinho-vazio">
+                Seu carrinho está vazio.
+            </p>
+
+
+            <div class="resumo-carrinho">
+
+                <h2>Resumo da compra</h2>
+
+                <p id="total"></p>
+
+                <button id="finalizarcomp">
+                    <i class="fa-solid fa-check"></i>
+                    Finalizar compra
+                </button>
+
+                <a href="index.html#produtos"
+                    class="continuar-comprando">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Continuar comprando
+
+                </a>
+
+            </div>
+
+
+            <div id="recibo"></div>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+
+        <div class="footer-info">
+
+            <img src="../imagens/LOGO%20ESQ.png"
+                alt="Logo Eskillows">
+
+            <p>
+                Direitos reservados: Anna Luisa, Lethicia Hikary,
+                Erik Matheus, Giovanna Siqueira, Ewerthon Klaiver
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    
+
+    <script src="../script.js"></script>
+
+</body>
+
+</html>
