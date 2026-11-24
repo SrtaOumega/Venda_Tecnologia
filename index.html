@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Eskillows | Tecnologia referência!</title>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
+
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="stylesheet"
+        href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+
+    <link rel="icon" type="image" href="../imagens/site.ico">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-header">
+
+            <a href="index.html" class="home-logo brand-lockup"
+                aria-label="Página inicial Eskillows">
+
+                <img src="../imagens/site.png"
+                    alt="Logo Eskillows" class="icone_site">
+
+                <img src="../imagens/LOGO%20ESQ.png"
+                    alt="" aria-hidden="true" class="brand-wordmark">
+            </a>
+
+            <div id="container">
+                <div class="input-group">
+
+                    <div class="input-icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+
+                    <input id="search"
+                        type="text"
+                        class="input-field"
+                        placeholder="Buscar um produto pelo nome"
+                        aria-label="Buscar produto pelo nome"
+                        autocomplete="off">
+
+                </div>
+            </div>
+
+            <section class="header-categoria">
+                <a href="#produtos" class="categoria-gamer">
+                    Produtos Gamer
+                </a>
+            </section>
+
+            <nav class="icones-header-" aria-label="Navegação principal">
+
+                <a href="login.html" aria-label="Entrar ou criar conta">
+                    <img src="../imagens/icone-perfil-branco.png"
+                        alt="Minha conta" class="tentando-algo">
+                </a>
+
+                <a href="carrinho.html" aria-label="Abrir carrinho">
+                    <img src="../imagens/carrinho branco.png"
+                        alt="Carrinho de compras" class="carrinho">
+                </a>
+
+            </nav>
+
+        </div>
+    </header>
+
+
+    <div class="gallery js-flickity"
+        data-flickity-options='{ "wrapAround": true, "autoPlay": 5000, "pauseAutoPlayOnHover": true }'>
+
+        <div class="gallery-cell hero-featured">
+
+            <img src="../imagens/mousepad.jpeg"
+                alt="Mouse pad gamer com estampa de dragão"
+                class="Imagem_Carrossel">
+
+            <div class="hero-copy">
+
+                <span class="hero-eyebrow">
+                    Eskillows · loja gamer
+                </span>
+
+                <h1>Seu próximo nível começa no setup.</h1>
+
+                <p>
+                    Encontre os equipamentos certos para jogar
+                    com mais conforto e precisão.
+                </p>
+
+                <a href="mousepad.html">
+                    Conhecer mouse pad
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="gallery-cell">
+            <img src="../imagens/teclado%202.jpeg"
+                alt="Teclado gamer azul e branco"
+                class="Imagem_Carrossel">
+        </div>
+
+        <div class="gallery-cell">
+            <img src="../imagens/fone.jpeg"
+                alt="Headset gamer branco e vinho"
+                class="Imagem_Carrossel">
+        </div>
+
+        <div class="gallery-cell">
+            <img src="../imagens/mouse.jpeg"
+                alt="Mouse gamer RGB"
+                class="Imagem_Carrossel">
+        </div>
+
+    </div>
+
+
+    <section class="produtos" id="produtos">
+
+        <h2>Encontre seu próximo upgrade</h2>
+
+        <p class="produtos-intro">
+            Explore o catálogo, filtre por categoria ou busque
+            pelo nome do produto.
+        </p>
+
+
+        <div class="filtro-categorias">
+
+            <button class="filtro-categoria ativo"
+                data-categoria="todos">
+                Todos
+            </button>
+
+            <button class="filtro-categoria"
+                data-categoria="audio">
+                Áudio
+            </button>
+
+            <button class="filtro-categoria"
+                data-categoria="perifericos">
+                Periféricos
+            </button>
+
+            <button class="filtro-categoria"
+                data-categoria="acessorios">
+                Acessórios
+            </button>
+
+        </div>
+
+
+        <!-- Os produtos serão carregados pela API -->
+
+        <div class="lista-produtos" id="lista-produtos">
+        </div>
+
+
+        <p id="nenhum-produto" style="display: none;">
+            Nenhum produto encontrado.
+        </p>
+
+    </section>
+
+
+    <footer>
+
+        <div class="footer-info">
+
+            <img src="../imagens/LOGO%20ESQ.png"
+                alt="Logo Eskillows">
+
+            <p>
+                Direitos reservados: Anna Luisa, Lethicia Hikary,
+                Erik Matheus, Giovanna Siqueira, Ewerthon Klaiver
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <script src="../script.js"></script>
+
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+
+</body>
+</html>

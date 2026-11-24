@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Acesse ou crie sua conta na Eskillows.">
+    <title>Entrar ou cadastrar | Eskillows</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="../imagens/site.ico">
+</head>
+<body class="pagina-auth">
+
+    <!-- Cabeçalho seguindo o padrão original da Eskillows -->
+    <header class="header-auth">
+        <div class="header-header">
+            <a href="index.html" aria-label="Voltar para a página inicial" class="brand-lockup">
+                <img src="../imagens/site.png" alt="Logo Eskillows" class="icone_site">
+                <img src="../imagens/LOGO%20ESQ.png" alt="" aria-hidden="true" class="brand-wordmark">
+            </a>
+
+            <nav class="icones-header-" aria-label="Navegação">
+                <a href="index.html" class="link-voltar-loja">
+                    <i class="fa-solid fa-store" aria-hidden="true"></i>
+                    <span>Voltar à loja</span>
+                </a>
+                <a href="carrinho.html" aria-label="Abrir carrinho">
+                    <img src="../imagens/carrinho branco.png" alt="" class="carrinho">
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="auth-main">
+        <section class="auth-card" aria-labelledby="auth-titulo">
+            <div class="auth-identidade">
+                <span class="auth-selo">ESKILLOWS</span>
+                <h1 id="auth-titulo">Que bom ter você aqui!</h1>
+                <p class="auth-subtitulo">Entre na sua conta ou crie seu cadastro para continuar.</p>
+            </div>
+
+            <div class="auth-tabs" role="tablist" aria-label="Escolha uma opção">
+                <button type="button" class="auth-tab ativa" id="tab-login"
+                        role="tab" aria-selected="true" aria-controls="painel-login">
+                    Entrar
+                </button>
+                <button type="button" class="auth-tab" id="tab-cadastro"
+                        role="tab" aria-selected="false" aria-controls="painel-cadastro">
+                    Criar conta
+                </button>
+            </div>
+
+            <div id="auth-mensagem" class="auth-mensagem" role="status" aria-live="polite"></div>
+
+            <form id="form-login" class="auth-form" novalidate
+                  role="tabpanel" aria-labelledby="tab-login">
+                <div class="auth-campo">
+                    <label for="login-email">E-mail</label>
+                    <div class="auth-input-wrap">
+                        <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                        <input type="email" id="login-email" name="email"
+                               placeholder="voce@exemplo.com" autocomplete="email" required>
+                    </div>
+                    <small class="auth-erro"></small>
+                </div>
+
+                <div class="auth-campo">
+                    <label for="login-senha">Senha</label>
+                    <div class="auth-input-wrap">
+                        <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                        <input type="password" id="login-senha" name="senha"
+                               placeholder="Digite sua senha" autocomplete="current-password"
+                               minlength="8" required>
+                        <button type="button" class="auth-mostrar-senha"
+                                data-toggle-senha="login-senha" aria-label="Mostrar senha">
+                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <small class="auth-erro"></small>
+                </div>
+
+                <button type="submit" class="auth-botao">
+                    Entrar na minha conta
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </button>
+
+                <p class="auth-alternativa">
+                    Ainda não tem uma conta?
+                    <button type="button" class="auth-link" data-abrir="cadastro">Cadastre-se</button>
+                </p>
+            </form>
+
+            <form id="form-cadastro" class="auth-form" novalidate
+                  role="tabpanel" aria-labelledby="tab-cadastro" hidden>
+                <div class="auth-campo">
+                    <label for="cadastro-nome">Nome completo</label>
+                    <div class="auth-input-wrap">
+                        <i class="fa-regular fa-user" aria-hidden="true"></i>
+                        <input type="text" id="cadastro-nome" name="nome"
+                               placeholder="Como podemos chamar você?" autocomplete="name"
+                               minlength="3" maxlength="100" required>
+                    </div>
+                    <small class="auth-erro"></small>
+                </div>
+
+                <div class="auth-campo">
+                    <label for="cadastro-email">E-mail</label>
+                    <div class="auth-input-wrap">
+                        <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                        <input type="email" id="cadastro-email" name="email"
+                               placeholder="voce@exemplo.com" autocomplete="email" required>
+                    </div>
+                    <small class="auth-erro"></small>
+                </div>
+
+                <div class="auth-campo">
+                    <label for="cadastro-senha">Senha</label>
+                    <div class="auth-input-wrap">
+                        <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                        <input type="password" id="cadastro-senha" name="senha"
+                               placeholder="Crie uma senha com pelo menos 8 caracteres"
+                               autocomplete="new-password" minlength="8" required>
+                        <button type="button" class="auth-mostrar-senha"
+                                data-toggle-senha="cadastro-senha" aria-label="Mostrar senha">
+                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <small class="auth-erro"></small>
+                </div>
+
+                <div class="auth-campo">
+                    <label for="cadastro-confirmar">Confirmar senha</label>
+                    <div class="auth-input-wrap">
+                        <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                        <input type="password" id="cadastro-confirmar" name="confirmarSenha"
+                               placeholder="Digite a senha novamente"
+                               autocomplete="new-password" required>
+                    </div>
+                    <small class="auth-erro"></small>
+                </div>
+
+                <button type="submit" class="auth-botao">
+                    Criar minha conta
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </button>
+
+                <p class="auth-alternativa">
+                    Já tem uma conta?
+                    <button type="button" class="auth-link" data-abrir="login">Faça login</button>
+                </p>
+            </form>
+
+            <div class="auth-nota">
+                <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                <span>Seus dados serão tratados pela autenticação do sistema quando a API estiver integrada.</span>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-auth">
+        <div class="footer-info">
+            <img src="../imagens/LOGO%20ESQ.png" alt="Eskillows">
+            <p>Direitos reservados: Anna Luisa, Lethicia Hikary, Erik Matheus, Giovanna Siqueira e Ewerthon Klaiver.</p>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+</body>
+</html>
