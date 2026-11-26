@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo | Eskillows</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+    <header class="cabecalho">
+
+        <a href="index.html" class="logo-admin">
+            <img src="logo-eskillows.jpeg" alt="Logo Eskillows">
+            <h1>Eskillows</h1>
+        </a>
+
+        <span>Painel Administrativo</span>
+
+        <a href="index.html">Voltar para a loja</a>
+
+    </header>
+
+    <main class="painel">
+
+        <h2>Painel Administrativo</h2>
+        <p>Gerencie os produtos, pedidos e estoque da loja.</p>
+
+        <p id="mensagem" role="status"></p>
+
+
+        <section class="indicadores">
+
+            <div class="card">
+                <h3>Total de produtos</h3>
+                <span id="totalProdutos">--</span>
+            </div>
+
+            <div class="card">
+                <h3>Total de pedidos</h3>
+                <span id="totalPedidos">--</span>
+            </div>
+
+            <div class="card">
+                <h3>Estoque baixo</h3>
+                <span id="estoqueBaixo">--</span>
+            </div>
+
+        </section>
+
+
+        <section class="secao">
+
+            <h2>Cadastro e edição de produtos</h2>
+
+            <form id="formProduto">
+
+                <input type="hidden" id="produtoId">
+
+                <label for="codigo">Código do produto</label>
+                <input type="text" id="codigo"
+                    maxlength="30" required>
+
+                <label for="nome">Nome do produto</label>
+                <input type="text" id="nome"
+                    maxlength="120" required>
+
+                <label for="descricao">Descrição</label>
+                <textarea id="descricao" required></textarea>
+
+                <label for="categoria">Categoria</label>
+                <select id="categoria" required>
+                    <option value="">Selecione uma categoria</option>
+                </select>
+
+                <label for="preco">Preço (R$)</label>
+                <input type="number" id="preco"
+                    min="0" step="0.01" required>
+
+                <label for="estoqueMinimo">Estoque mínimo</label>
+                <input type="number" id="estoqueMinimo"
+                    min="0" step="1" value="5" required>
+
+                <label for="imagem">Caminho da imagem</label>
+                <input type="text" id="imagem"
+                    maxlength="255"
+                    placeholder="../imagens/produto.png" required>
+
+                <button type="submit" id="btnSalvar">
+                    Salvar produto
+                </button>
+
+                <button type="reset">Limpar</button>
+
+            </form>
+
+        </section>
+
+
+        <section class="secao">
+
+            <h2>Produtos cadastrados</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Código</th>
+                        <th>Produto</th>
+                        <th>Preço</th>
+                        <th>Estoque</th>
+                        <th>Estoque mínimo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody id="listaProdutos"></tbody>
+            </table>
+
+        </section>
+
+
+        <section class="secao">
+
+            <h2>Controle de estoque</h2>
+
+            <form id="formEstoque">
+
+                <label for="produtoEstoque">Produto</label>
+
+                <select id="produtoEstoque" required>
+                    <option value="">Selecione um produto</option>
+                </select>
+
+                <label for="tipo">Tipo de movimentação</label>
+
+                <select id="tipo" required>
+                    <option value="entrada">Entrada</option>
+                    <option value="saida">Saída</option>
+                    <option value="ajuste">Ajuste</option>
+                </select>
+
+                <label for="quantidade" id="labelQuantidade">
+                    Quantidade
+                </label>
+
+                <input type="number" id="quantidade"
+                    min="1" step="1" required>
+
+                <label for="motivo">Motivo</label>
+                <textarea id="motivo"
+                    maxlength="255" required></textarea>
+
+                <button type="submit">
+                    Registrar movimentação
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <section class="secao">
+
+            <h2>Histórico de movimentações</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Produto</th>
+                        <th>Tipo</th>
+                        <th>Quantidade</th>
+                        <th>Saldo resultante</th>
+                        <th>Motivo</th>
+                    </tr>
+                </thead>
+
+                <tbody id="historicoEstoque"></tbody>
+            </table>
+
+        </section>
+
+    </main>
+
+    <script src="admin.js"></script>
+
+</body>
+
+</html>

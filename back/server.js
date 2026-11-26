@@ -736,6 +736,417 @@ app.post('/pedidos', autenticarToken, async (req, res) => {
     }
 });
 
+async function exigirAdmin(req, res, next) {
+
+    try {
+        const [usuarios] = await db.execute(
+            'SELECT perfil FROM usuarios WHERE id = ?',
+            [req.usuario.id]
+        );
+
+        if (
+            usuarios.length === 0 ||
+            usuarios[0].perfil !== 'admin'
+        ) {
+            return res.status(403).json({
+                erro: 'Acesso exclusivo para administradores.'
+            });
+        }
+
+        next();
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        res.status(500).json({
+            erro: 'Erro ao verificar acesso.'
+        });
+    }
+}
+
+const admin = express.Router();
+
+admin.use(autenticarToken, exigirAdmin);
+
+
+function erroAdmin(res, erro) {
+
+    if (erro.code === 'ER_DUP_ENTRY') {
+        return res.status(409).json({
+            erro: 'Código de produto já cadastrado.'
+        });
+    }
+
+    if (erro.code === 'ER_NO_REFERENCED_ROW_2') {
+        return res.status(400).json({
+            erro: 'Categoria ou referência inválida.'
+        });
+    }
+
+    console.error(erro);
+
+    return res.status(500).json({
+        erro: 'Erro ao realizar operação administrativa.'
+    });
+}
+
+
+admin.get('/indicadores', async (req, res) => {
+
+    try {
+
+        const [[dados]] = await db.query(
+            `SELECT
+                (SELECT COUNT(*)
+                 FROM produtos
+                 WHERE ativo = 1) AS totalProdutos,
+
+                (SELECT COUNT(*)
+                 FROM pedidos) AS totalPedidos,
+
+                (SELECT COUNT(*)
+                 FROM produtos
+                 WHERE ativo = 1
+                 AND estoque <= estoque_minimo) AS estoqueBaixo`
+        );
+
+        res.json(dados);
+
+    } catch (erro) {
+        erroAdmin(res, erro);
+    }
+});
+
+
+admin.get('/categorias', async (req, res) => {
+
+    try {
+
+        const [categorias] = await db.query(
+            'SELECT id, nome FROM categorias ORDER BY nome'
+        );
+
+        res.json(categorias);
+
+    } catch (erro) {
+        erroAdmin(res, erro);
+    }
+});
+
+
+admin.get('/produtos', async (req, res) => {
+
+    try {
+
+        const [produtos] = await db.query(
+            'SELECT * FROM produtos ORDER BY id'
+        );
+
+        res.json(produtos);
+
+    } catch (erro) {
+        erroAdmin(res, erro);
+    }
+});
+
+
+function dadosProduto(body) {
+
+    const {
+        codigo,
+        nome,
+        descricao,
+        categoria_id,
+        preco,
+        estoque_minimo,
+        imagem
+    } = body || {};
+
+    const textoValido = (valor, maximo) =>
+        typeof valor === 'string' &&
+        valor.trim().length > 0 &&
+        valor.trim().length <= maximo;
+
+    if (
+        !textoValido(codigo, 30) ||
+        !textoValido(nome, 120) ||
+        !textoValido(descricao, 16000) ||
+        !textoValido(imagem, 255) ||
+        !Number.isInteger(categoria_id) ||
+        categoria_id < 1 ||
+        typeof preco !== 'number' ||
+        !Number.isFinite(preco) ||
+        preco < 0 ||
+        preco > 99999999.99 ||
+        Math.abs(preco * 100 - Math.round(preco * 100)) > 0.00001 ||
+        !Number.isInteger(estoque_minimo) ||
+        estoque_minimo < 0 ||
+        estoque_minimo > 2147483647
+    ) {
+        return null;
+    }
+
+    return [
+        codigo.trim(),
+        nome.trim(),
+        descricao.trim(),
+        categoria_id,
+        preco,
+        estoque_minimo,
+        imagem.trim()
+    ];
+}
+
+
+admin.post('/produtos', async (req, res) => {
+
+    const dados = dadosProduto(req.body);
+
+    if (!dados) {
+        return res.status(400).json({
+            erro: 'Dados do produto inválidos.'
+        });
+    }
+
+    try {
+
+        const [resultado] = await db.execute(
+            `INSERT INTO produtos
+             (codigo, nome, descricao, categoria_id,
+              preco, estoque_minimo, imagem)
+             VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            dados
+        );
+
+        res.status(201).json({
+            mensagem: 'Produto cadastrado com sucesso!',
+            id: resultado.insertId
+        });
+
+    } catch (erro) {
+        erroAdmin(res, erro);
+    }
+});
+
+
+admin.put('/produtos/:id', async (req, res) => {
+
+    const id = Number(req.params.id);
+
+    const dados = dadosProduto(req.body);
+
+    if (!dados || !Number.isSafeInteger(id) || id < 1) {
+        return res.status(400).json({
+            erro: 'Dados do produto inválidos.'
+        });
+    }
+
+    try {
+
+        const [resultado] = await db.execute(
+            `UPDATE produtos SET
+                codigo = ?,
+                nome = ?,
+                descricao = ?,
+                categoria_id = ?,
+                preco = ?,
+                estoque_minimo = ?,
+                imagem = ?
+             WHERE id = ?`,
+            [...dados, id]
+        );
+
+        if (!resultado.affectedRows) {
+            return res.status(404).json({
+                erro: 'Produto não encontrado.'
+            });
+        }
+
+        res.json({
+            mensagem: 'Produto atualizado com sucesso!'
+        });
+
+    } catch (erro) {
+        erroAdmin(res, erro);
+    }
+});
+
+
+admin.get('/estoque/historico', async (req, res) => {
+
+    try {
+
+        const [historico] = await db.query(
+            `SELECT m.*, p.nome AS produto_nome
+             FROM movimentacoes_estoque m
+             JOIN produtos p ON p.id = m.produto_id
+             ORDER BY m.data_movimentacao DESC, m.id DESC`
+        );
+
+        res.json(historico);
+
+    } catch (erro) {
+        erroAdmin(res, erro);
+    }
+});
+
+
+admin.post('/estoque', async (req, res) => {
+
+    const {
+        produto_id,
+        tipo,
+        quantidade,
+        motivo
+    } = req.body || {};
+
+
+    if (
+        !Number.isInteger(produto_id) ||
+        produto_id < 1 ||
+        !['entrada', 'saida', 'ajuste'].includes(tipo) ||
+        !Number.isInteger(quantidade) ||
+        quantidade < (tipo === 'ajuste' ? 0 : 1) ||
+        quantidade > 2147483647 ||
+        typeof motivo !== 'string' ||
+        !motivo.trim() ||
+        motivo.trim().length > 255
+    ) {
+        return res.status(400).json({
+            erro: 'Movimentação inválida.'
+        });
+    }
+
+    let conexao;
+
+    try {
+
+        conexao = await db.getConnection();
+
+        await conexao.beginTransaction();
+
+        const [produtos] = await conexao.execute(
+            `SELECT estoque
+             FROM produtos
+             WHERE id = ?
+             FOR UPDATE`,
+            [produto_id]
+        );
+
+        if (produtos.length === 0) {
+
+            await conexao.rollback();
+
+            return res.status(404).json({
+                erro: 'Produto não encontrado.'
+            });
+        }
+
+        const estoqueAtual = Number(produtos[0].estoque);
+
+        let novoEstoque;
+
+
+        if (tipo === 'entrada') {
+            novoEstoque = estoqueAtual + quantidade;
+        }
+
+
+        else if (tipo === 'saida') {
+            novoEstoque = estoqueAtual - quantidade;
+        }
+
+
+        else {
+            novoEstoque = quantidade;
+        }
+
+        const quantidadeMovimentada =
+            Math.abs(novoEstoque - estoqueAtual);
+
+
+        if (novoEstoque < 0) {
+
+            await conexao.rollback();
+
+            return res.status(409).json({
+                erro: 'Estoque insuficiente para realizar a saída.'
+            });
+        }
+
+        if (novoEstoque > 2147483647) {
+
+            await conexao.rollback();
+
+            return res.status(409).json({
+                erro: 'Limite de estoque excedido.'
+            });
+        }
+
+        if (quantidadeMovimentada === 0) {
+
+            await conexao.rollback();
+
+            return res.status(409).json({
+                erro: 'A movimentação não altera o estoque.'
+            });
+        }
+
+
+        await conexao.execute(
+            `UPDATE produtos
+             SET estoque = ?
+             WHERE id = ?`,
+            [novoEstoque, produto_id]
+        );
+
+
+        await conexao.execute(
+            `INSERT INTO movimentacoes_estoque
+             (produto_id, usuario_id, tipo,
+              quantidade, saldo_resultante, motivo)
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [
+                produto_id,
+                req.usuario.id,
+                tipo,
+                quantidadeMovimentada,
+                novoEstoque,
+                motivo.trim()
+            ]
+        );
+
+        await conexao.commit();
+
+        res.status(201).json({
+            mensagem: 'Movimentação registrada com sucesso!',
+            saldo: novoEstoque
+        });
+
+    } catch (erro) {
+
+        if (conexao) {
+            try {
+                await conexao.rollback();
+            } catch (falha) {
+                console.error(falha);
+            }
+        }
+
+        erroAdmin(res, erro);
+
+    } finally {
+
+        if (conexao) {
+            conexao.release();
+        }
+    }
+});
+
+
+app.use('/admin', admin);
+
 app.listen(3000, () => {
     console.log('Servidor rodando na porta 3000');
 });

@@ -161,7 +161,6 @@ footer { margin-top: 0; padding: 22px 20px; color: #c6cad3; background: var(--na
 footer img { display: block; width: 140px; height: auto; object-fit: contain; }
 .footer-info p { margin: 0; font-size: 11px; line-height: 1.6; }
 
-/* Acesso e cadastro */
 .pagina-auth { min-height: 100vh; display: flex; flex-direction: column; background: radial-gradient(ellipse at 50% 25%, #fff 0, #f1f3f9 72%); }
 .header-auth .header-header { min-height: 82px; }
 .header-auth .icone_site { width: 56px; height: 56px; transform: translateY(5px); }

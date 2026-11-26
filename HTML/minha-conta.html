@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -75,6 +74,21 @@
         #conta-mensagem {
             margin-top: 15px;
         }
+
+
+        .conta-admin {
+            background: #315d8a;
+            color: white;
+        }
+
+        .conta-admin:hover {
+            background: #234568;
+        }
+
+        #botao-admin[hidden] {
+            display: none;
+        }
+
     </style>
 </head>
 
@@ -131,6 +145,11 @@
 
             <a href="index.html" class="conta-loja">
                 <i class="fa-solid fa-store"></i> Voltar à loja
+            </a>
+
+
+            <a href="admin.html" class="conta-admin" id="botao-admin" hidden>
+                <i class="fa-solid fa-gear"></i> Painel Administrativo
             </a>
 
             <button type="button" class="conta-sair" id="botao-sair">
