@@ -138,7 +138,7 @@
         return resultado;
     }
 
-    // ABAS
+   
     tabLogin.addEventListener("click", () => alternarAba("login"));
     tabCadastro.addEventListener("click", () => alternarAba("cadastro"));
 
@@ -148,7 +148,7 @@
         });
     });
 
-    // MOSTRAR OU OCULTAR SENHA
+
     document.querySelectorAll("[data-toggle-senha]").forEach(botao => {
         botao.addEventListener("click", () => {
             const input = document.getElementById(botao.dataset.toggleSenha);
@@ -168,7 +168,7 @@
         });
     });
 
-    // LIMPAR ERROS AO DIGITAR
+  
     document.querySelectorAll(".auth-form input").forEach(input => {
         input.addEventListener("input", () => {
             const campo = input.closest(".auth-campo");
@@ -185,7 +185,7 @@
         });
     });
 
-    // CADASTRO
+
     formCadastro.addEventListener("submit", async evento => {
         evento.preventDefault();
 
@@ -228,7 +228,7 @@
         }
     });
 
-    // LOGIN
+
     formLogin.addEventListener("submit", async evento => {
         evento.preventDefault();
 
@@ -257,7 +257,7 @@
                 );
             }
 
-            // Salva os dados da sessão
+            
             localStorage.setItem("tokenEskillows", resultado.token);
 
             localStorage.setItem(
@@ -267,7 +267,7 @@
 
             exibirMensagem("Login realizado com sucesso!", "sucesso");
 
-            // Abre Minha Conta
+         
             setTimeout(() => {
                 window.location.href = "minha-conta.html";
             }, 1000);
