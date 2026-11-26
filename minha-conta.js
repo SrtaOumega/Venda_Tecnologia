@@ -1,4 +1,3 @@
-
 (() => {
     "use strict";
 
@@ -9,6 +8,7 @@
     const emailElemento = document.getElementById("usuario-email");
     const perfilElemento = document.getElementById("usuario-perfil");
     const botaoSair = document.getElementById("botao-sair");
+    const botaoAdmin = document.getElementById("botao-admin");
 
     const token = localStorage.getItem("tokenEskillows");
 
@@ -20,6 +20,14 @@
         nomeElemento.textContent = usuario.nome || "Não informado";
         emailElemento.textContent = usuario.email || "Não informado";
         perfilElemento.textContent = usuario.perfil || "Cliente";
+    }
+
+    // Exibe o botão somente para administradores
+
+    function verificarAdministrador(usuario) {
+        if (botaoAdmin) {
+            botaoAdmin.hidden = usuario.perfil !== "admin";
+        }
     }
 
     function sairDaConta() {
@@ -34,6 +42,11 @@
     }
 
     async function carregarPerfil() {
+
+        if (botaoAdmin) {
+            botaoAdmin.hidden = true;
+        }
+
         if (!token) {
             exibirMensagem("Você precisa entrar na sua conta.");
 
@@ -45,6 +58,7 @@
         }
 
         // Mostra os dados salvos enquanto consulta o servidor.
+
         try {
             const usuarioSalvo = JSON.parse(
                 localStorage.getItem("usuarioEskillows") || "null"
@@ -53,6 +67,7 @@
             if (usuarioSalvo) {
                 mostrarUsuario(usuarioSalvo);
             }
+
         } catch (erro) {
             console.error("Erro ao ler usuário salvo:", erro);
         }
@@ -81,10 +96,16 @@
             }
 
             if (!resultado.usuario) {
-                throw new Error("O servidor não retornou os dados do usuário.");
+                throw new Error(
+                    "O servidor não retornou os dados do usuário."
+                );
             }
 
             mostrarUsuario(resultado.usuario);
+
+            // Confirma a permissão pelo servidor
+
+            verificarAdministrador(resultado.usuario);
 
             localStorage.setItem(
                 "usuarioEskillows",
@@ -96,6 +117,11 @@
             );
 
         } catch (erro) {
+
+            if (botaoAdmin) {
+                botaoAdmin.hidden = true;
+            }
+
             console.error("Erro ao carregar perfil:", erro);
 
             exibirMensagem(
