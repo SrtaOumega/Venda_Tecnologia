@@ -1,8 +1,4 @@
 
-// =========================================================
-// ESKILLOWS - INTEGRAÇÃO DO CATÁLOGO COM A API
-// =========================================================
-
 const API_URL = "http://localhost:3000";
 
 let produtos = [];
@@ -102,10 +98,6 @@ function formatarPreco(valor) {
     });
 }
 
-// =========================================================
-// CATÁLOGO DE PRODUTOS
-// =========================================================
-
 function renderizarProdutos() {
     if (!listaProdutos) return;
 
@@ -193,10 +185,6 @@ async function carregarProdutos() {
     }
 }
 
-// =========================================================
-// PESQUISA E FILTROS
-// =========================================================
-
 function filtrarProdutos() {
     const produtosTela = document.querySelectorAll(".link-produto");
     const pesquisa = searchInput ? formatString(searchInput.value) : "";
@@ -243,10 +231,6 @@ document.querySelectorAll(".filtro-categoria").forEach(botao => {
         filtrarProdutos();
     });
 });
-
-// =========================================================
-// CARRINHO
-// =========================================================
 
 class ItemCarrinho {
     constructor(produto, quantidade) {
@@ -495,10 +479,6 @@ function atualizarCarrinhoTela() {
     });
 }
 
-// =========================================================
-// ADICIONAR AO CARRINHO E PÁGINAS DE DETALHES
-// =========================================================
-
 function adicionarAoCarrinho(codigo, quantidadeEscolhida = 1) {
     const produto = produtos.find(item => item.codigo === codigo);
 
@@ -607,10 +587,6 @@ function configurarPaginaDetalhe() {
     configurarBotoesAdicionar();
 }
 
-// =========================================================
-// FINALIZAÇÃO REAL DA COMPRA - INTEGRAÇÃO COM O BACKEND
-// =========================================================
-
 let finalizacaoEmAndamento = false;
 
 if (finalizarcomp) {
@@ -686,13 +662,12 @@ if (finalizarcomp) {
                 quantidade: item.quantidade
             }));
 
-            // Limpa o carrinho somente depois da confirmação do servidor.
+        
             meuCarrinho.limpar();
 
             atualizarCarrinhoTela();
             atualizarTelaTotal();
 
-            // Atualiza os estoques com os valores reais do banco.
             await carregarProdutos();
 
             const nota = document.createElement("p");
@@ -736,9 +711,5 @@ if (finalizarcomp) {
         }
     });
 }
-
-// =========================================================
-// INICIALIZAÇÃO
-// =========================================================
 
 carregarProdutos();
