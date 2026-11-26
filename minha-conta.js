@@ -44,7 +44,6 @@
             return;
         }
 
-        // Mostra os dados salvos enquanto consulta o servidor.
         try {
             const usuarioSalvo = JSON.parse(
                 localStorage.getItem("usuarioEskillows") || "null"
