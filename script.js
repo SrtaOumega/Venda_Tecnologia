@@ -662,7 +662,6 @@ if (finalizarcomp) {
                 quantidade: item.quantidade
             }));
 
-        
             meuCarrinho.limpar();
 
             atualizarCarrinhoTela();

@@ -88,7 +88,6 @@
         pedidos.forEach(pedido => {
             const card = criarElemento("article", "pedido");
 
-
             const cabecalho = criarElemento("div", "pedido-cabecalho");
 
             const identificacao = document.createElement("div");
@@ -112,7 +111,6 @@
 
             card.appendChild(cabecalho);
 
-            // Produtos do pedido.
             const itens = criarElemento("div", "pedido-itens");
 
             (pedido.itens || []).forEach(item => {
@@ -146,7 +144,6 @@
 
             card.appendChild(itens);
 
-            // Valores da compra.
             const resumo = criarElemento("div", "pedido-resumo");
 
             criarResumo(

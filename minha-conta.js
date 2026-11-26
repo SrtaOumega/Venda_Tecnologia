@@ -22,12 +22,26 @@
         perfilElemento.textContent = usuario.perfil || "Cliente";
     }
 
-    function sairDaConta() {
+    async function sairDaConta() {
+    try {
+        if (token) {
+            await fetch(`${API_URL}/logout`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+        }
+
+    } catch (erro) {
+        console.error('Erro ao encerrar sessão:', erro);
+
+    } finally {
         localStorage.removeItem("tokenEskillows");
         localStorage.removeItem("usuarioEskillows");
 
         window.location.href = "login.html";
-    }
+    }}
 
     if (botaoSair) {
         botaoSair.addEventListener("click", sairDaConta);

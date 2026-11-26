@@ -138,7 +138,6 @@
         return resultado;
     }
 
-   
     tabLogin.addEventListener("click", () => alternarAba("login"));
     tabCadastro.addEventListener("click", () => alternarAba("cadastro"));
 
@@ -147,7 +146,6 @@
             alternarAba(botao.dataset.abrir);
         });
     });
-
 
     document.querySelectorAll("[data-toggle-senha]").forEach(botao => {
         botao.addEventListener("click", () => {
@@ -168,7 +166,6 @@
         });
     });
 
-  
     document.querySelectorAll(".auth-form input").forEach(input => {
         input.addEventListener("input", () => {
             const campo = input.closest(".auth-campo");
@@ -184,7 +181,6 @@
             exibirMensagem("");
         });
     });
-
 
     formCadastro.addEventListener("submit", async evento => {
         evento.preventDefault();
@@ -228,7 +224,6 @@
         }
     });
 
-
     formLogin.addEventListener("submit", async evento => {
         evento.preventDefault();
 
@@ -257,7 +252,6 @@
                 );
             }
 
-            
             localStorage.setItem("tokenEskillows", resultado.token);
 
             localStorage.setItem(
@@ -267,7 +261,6 @@
 
             exibirMensagem("Login realizado com sucesso!", "sucesso");
 
-         
             setTimeout(() => {
                 window.location.href = "minha-conta.html";
             }, 1000);
