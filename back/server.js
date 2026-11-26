@@ -24,11 +24,6 @@ const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
     throw new Error('Configure JWT_SECRET no arquivo .env');
 }
-
-// =========================================================
-// ROTAS INICIAIS
-// =========================================================
-
 app.get('/', (req, res) => {
     res.json({
         mensagem: 'API do Eskillows funcionando!'
@@ -53,11 +48,6 @@ app.get('/teste-banco', async (req, res) => {
         });
     }
 });
-
-// =========================================================
-// PRODUTOS
-// =========================================================
-
 app.get('/produtos', async (req, res) => {
     try {
         const [produtos] = await db.query(
@@ -73,11 +63,6 @@ app.get('/produtos', async (req, res) => {
         });
     }
 });
-
-// =========================================================
-// CADASTRO
-// =========================================================
-
 app.post('/cadastro', async (req, res) => {
     try {
         const { nome, email, senha } = req.body;
@@ -147,11 +132,6 @@ app.post('/cadastro', async (req, res) => {
         });
     }
 });
-
-// =========================================================
-// LOGIN
-// =========================================================
-
 app.post('/login', async (req, res) => {
     try {
         const { email, senha } = req.body;
@@ -224,11 +204,6 @@ app.post('/login', async (req, res) => {
         });
     }
 });
-
-// =========================================================
-// AUTENTICAÇÃO POR TOKEN
-// =========================================================
-
 function autenticarToken(req, res, next) {
     const cabecalho = req.headers.authorization;
 
@@ -249,10 +224,6 @@ function autenticarToken(req, res, next) {
         });
     }
 }
-
-// =========================================================
-// PERFIL DO USUÁRIO
-// =========================================================
 
 app.get('/perfil', autenticarToken, async (req, res) => {
     try {
@@ -280,11 +251,6 @@ app.get('/perfil', autenticarToken, async (req, res) => {
         });
     }
 });
-
-// =========================================================
-// HISTÓRICO DE PEDIDOS DO USUÁRIO
-// =========================================================
-
 app.get('/meus-pedidos', autenticarToken, async (req, res) => {
     try {
         const [resultados] = await db.execute(
@@ -347,11 +313,6 @@ app.get('/meus-pedidos', autenticarToken, async (req, res) => {
         });
     }
 });
-
-// =========================================================
-// REGISTRAR PEDIDO
-// =========================================================
-
 app.post('/pedidos', autenticarToken, async (req, res) => {
     const { itens } = req.body;
 
@@ -360,8 +321,6 @@ app.post('/pedidos', autenticarToken, async (req, res) => {
             erro: 'O carrinho está vazio.'
         });
     }
-
-    // Agrupa produtos repetidos.
     const quantidades = new Map();
 
     for (const item of itens) {
@@ -400,9 +359,6 @@ app.post('/pedidos', autenticarToken, async (req, res) => {
         await conexao.beginTransaction();
 
         const placeholders = codigos.map(() => '?').join(',');
-
-        // Busca os produtos diretamente no banco.
-        // FOR UPDATE bloqueia as linhas durante a transação.
         const [produtosBanco] = await conexao.execute(
             `SELECT id, codigo, nome, preco, estoque
              FROM produtos
@@ -454,7 +410,7 @@ app.post('/pedidos', autenticarToken, async (req, res) => {
             });
         }
 
-        // Calcula o desconto de 10% para compras a partir de R$ 300.
+     
         const descontoCentavos =
             subtotalCentavos >= 30000
                 ? Math.round(subtotalCentavos * 0.10)
@@ -467,7 +423,6 @@ app.post('/pedidos', autenticarToken, async (req, res) => {
         const desconto = descontoCentavos / 100;
         const valorTotal = valorTotalCentavos / 100;
 
-        // Registra o pedido.
         const [pedido] = await conexao.execute(
             `INSERT INTO pedidos
              (usuario_id, subtotal, desconto, valor_total, status)
@@ -483,8 +438,6 @@ app.post('/pedidos', autenticarToken, async (req, res) => {
 
         const pedidoId = pedido.insertId;
 
-        // Registra os itens, atualiza o estoque
-        // e registra cada movimentação.
         for (const item of itensPedido) {
             const novoEstoque =
                 Number(item.produto.estoque) - item.quantidade;
@@ -529,7 +482,6 @@ app.post('/pedidos', autenticarToken, async (req, res) => {
             );
         }
 
-        // Confirma todas as operações.
         await conexao.commit();
 
         res.status(201).json({
@@ -565,11 +517,6 @@ app.post('/pedidos', autenticarToken, async (req, res) => {
         }
     }
 });
-
-// =========================================================
-// INICIALIZAÇÃO
-// =========================================================
-
 app.listen(3000, () => {
     console.log('Servidor rodando na porta 3000');
 });
