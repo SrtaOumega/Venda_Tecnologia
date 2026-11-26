@@ -88,7 +88,7 @@
         pedidos.forEach(pedido => {
             const card = criarElemento("article", "pedido");
 
-            // Cabeçalho do pedido.
+
             const cabecalho = criarElemento("div", "pedido-cabecalho");
 
             const identificacao = document.createElement("div");
