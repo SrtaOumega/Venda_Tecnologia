@@ -5,16 +5,22 @@ CREATE DATABASE IF NOT EXISTS bdd_eskillows
 
 USE bdd_eskillows;
 
-
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(120) NOT NULL,
     email VARCHAR(150) NOT NULL,
     senha_hash VARCHAR(255) NOT NULL,
-    perfil ENUM('cliente', 'admin') NOT NULL DEFAULT 'cliente',
+    perfil ENUM('cliente', 'admin')
+        NOT NULL DEFAULT 'cliente',
     criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT uq_usuarios_email UNIQUE (email)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS tokens_revogados (
+    jti CHAR(36) PRIMARY KEY,
+    expira_em DATETIME NOT NULL,
+    INDEX idx_tokens_expira (expira_em)
 ) ENGINE=InnoDB;
 
 CREATE TABLE categorias (
@@ -223,3 +229,4 @@ FROM movimentacoes_estoque AS m
 INNER JOIN produtos AS p ON p.id = m.produto_id
 LEFT JOIN usuarios AS u ON u.id = m.usuario_id
 ORDER BY m.data_movimentacao DESC;
+

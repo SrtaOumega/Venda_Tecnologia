@@ -7,7 +7,6 @@ let produtos = [];
 const formProduto = document.getElementById("formProduto");
 const formEstoque = document.getElementById("formEstoque");
 
-// Controle de acesso ao painel
 
 function exibirPainel(permitido) {
 
@@ -19,11 +18,9 @@ function exibirPainel(permitido) {
 
 }
 
-// Esconde o conteúdo até verificar a permissão
 
 exibirPainel(false);
 
-// Exibir mensagens
 
 function mostrarMensagem(texto, tipo) {
 
@@ -39,7 +36,6 @@ function mostrarMensagem(texto, tipo) {
 
 }
 
-// Comunicação com a API
 
 async function requisicao(rota, metodo = "GET", dados = null) {
 
@@ -84,7 +80,6 @@ async function requisicao(rota, metodo = "GET", dados = null) {
 
 }
 
-// Carregar indicadores
 
 async function carregarIndicadores() {
 
@@ -101,7 +96,6 @@ async function carregarIndicadores() {
 
 }
 
-// Carregar categorias
 
 async function carregarCategorias() {
 
@@ -123,7 +117,6 @@ async function carregarCategorias() {
 
 }
 
-// Criar células das tabelas
 
 function adicionarCelula(linha, valor) {
 
@@ -135,7 +128,6 @@ function adicionarCelula(linha, valor) {
 
 }
 
-// Carregar produtos
 
 async function carregarProdutos() {
 
@@ -174,7 +166,6 @@ async function carregarProdutos() {
 
         adicionarCelula(linha, produto.estoque_minimo);
 
-        // Alerta de estoque baixo
 
         if (
             Number(produto.estoque) <=
@@ -211,7 +202,6 @@ async function carregarProdutos() {
 
 }
 
-// Preencher formulário para edição
 
 function editarProduto(id) {
 
@@ -249,7 +239,6 @@ function editarProduto(id) {
 
 }
 
-// Limpar formulário
 
 formProduto.addEventListener("reset", () => {
 
@@ -260,7 +249,6 @@ formProduto.addEventListener("reset", () => {
 
 });
 
-// Salvar ou atualizar produto
 
 formProduto.addEventListener("submit", async evento => {
 
@@ -336,7 +324,6 @@ formProduto.addEventListener("submit", async evento => {
 
 });
 
-// Alterar campo de quantidade conforme movimentação
 
 function atualizarCampoQuantidade() {
 
@@ -365,7 +352,6 @@ document.getElementById("tipo").addEventListener(
     atualizarCampoQuantidade
 );
 
-// Registrar movimentação de estoque
 
 formEstoque.addEventListener("submit", async evento => {
 
@@ -387,7 +373,6 @@ formEstoque.addEventListener("submit", async evento => {
 
     };
 
-    // Validação da quantidade
 
     if (
         !Number.isInteger(dados.quantidade) ||
@@ -405,7 +390,6 @@ formEstoque.addEventListener("submit", async evento => {
         item => item.id === dados.produto_id
     );
 
-    // Impedir saída maior que o estoque
 
     if (
         dados.tipo === "saida" &&
@@ -453,7 +437,6 @@ formEstoque.addEventListener("submit", async evento => {
 
 });
 
-// Carregar histórico de estoque
 
 async function carregarHistorico() {
 
@@ -494,7 +477,6 @@ async function carregarHistorico() {
 
 }
 
-// Atualizar informações do painel
 
 async function atualizarPainel() {
 
@@ -510,7 +492,6 @@ async function atualizarPainel() {
 
 }
 
-// Iniciar painel administrativo
 
 async function iniciarPainel() {
 
@@ -530,7 +511,6 @@ async function iniciarPainel() {
 
         atualizarCampoQuantidade();
 
-        // Exibe o painel após a autorização do backend
 
         exibirPainel(true);
 

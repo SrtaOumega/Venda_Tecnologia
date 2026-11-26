@@ -1,8 +1,10 @@
+
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 require('dotenv').config();
 
 const app = express();
@@ -23,8 +25,6 @@ const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
     throw new Error('Configure JWT_SECRET no arquivo .env');
 }
-
-// ROTAS INICIAIS
 
 app.get('/', (req, res) => {
     res.json({
@@ -51,29 +51,143 @@ app.get('/teste-banco', async (req, res) => {
     }
 });
 
-// PRODUTOS
-
 app.get('/produtos', async (req, res) => {
     try {
-        const [produtos] = await db.query(
-            'SELECT * FROM produtos WHERE ativo = TRUE'
-        );
+        const condicoes = ['p.ativo = TRUE'];
+        const parametros = [];
 
-        res.json(produtos);
+        if (req.query.busca !== undefined) {
+            if (typeof req.query.busca !== 'string') {
+                return res.status(400).json({
+                    erro: 'O termo de pesquisa é inválido.'
+                });
+            }
+
+            const busca = req.query.busca.trim();
+
+            if (busca) {
+                condicoes.push('p.nome LIKE ?');
+                parametros.push(`%${busca}%`);
+            }
+        }
+
+        if (req.query.categoria_id !== undefined) {
+            const categoriaId = Number(req.query.categoria_id);
+
+            if (
+                !Number.isInteger(categoriaId) ||
+                categoriaId <= 0
+            ) {
+                return res.status(400).json({
+                    erro: 'Categoria inválida.'
+                });
+            }
+
+            condicoes.push('p.categoria_id = ?');
+            parametros.push(categoriaId);
+        }
+
+        const sql = `
+            SELECT
+                p.id,
+                p.codigo,
+                p.nome,
+                p.descricao,
+                p.preco,
+                p.estoque,
+                p.estoque_minimo,
+                p.imagem,
+                p.ativo,
+                c.id AS categoria_id,
+                c.nome AS categoria
+            FROM produtos p
+            INNER JOIN categorias c
+                ON p.categoria_id = c.id
+            WHERE ${condicoes.join(' AND ')}
+            ORDER BY p.nome
+        `;
+
+        const [produtos] = await db.execute(sql, parametros);
+
+        return res.json(produtos);
+
     } catch (erro) {
-        console.error(erro);
+        console.error('Erro ao consultar produtos:', erro);
 
-        res.status(500).json({
-            erro: 'Erro ao buscar produtos.'
+        return res.status(500).json({
+            erro: 'Não foi possível consultar os produtos.'
         });
     }
 });
 
-// CADASTRO
+app.get('/produtos/:id', async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+
+        if (!Number.isInteger(id) || id <= 0) {
+            return res.status(400).json({
+                erro: 'Identificador do produto inválido.'
+            });
+        }
+
+        const [produtos] = await db.execute(`
+            SELECT
+                p.id,
+                p.codigo,
+                p.nome,
+                p.descricao,
+                p.preco,
+                p.estoque,
+                p.estoque_minimo,
+                p.imagem,
+                c.id AS categoria_id,
+                c.nome AS categoria
+            FROM produtos p
+            INNER JOIN categorias c
+                ON p.categoria_id = c.id
+            WHERE p.id = ?
+              AND p.ativo = TRUE
+        `, [id]);
+
+        if (produtos.length === 0) {
+            return res.status(404).json({
+                erro: 'Produto não encontrado.'
+            });
+        }
+
+        return res.json(produtos[0]);
+
+    } catch (erro) {
+        console.error('Erro ao consultar produto:', erro);
+
+        return res.status(500).json({
+            erro: 'Não foi possível consultar o produto.'
+        });
+    }
+});
+
+app.get('/categorias', async (req, res) => {
+    try {
+        const [categorias] = await db.query(
+            `SELECT id, nome
+             FROM categorias
+             ORDER BY nome`
+        );
+
+        res.json(categorias);
+
+    } catch (erro) {
+        console.error(erro);
+
+        res.status(500).json({
+            erro: 'Erro ao buscar categorias.'
+        });
+    }
+});
 
 app.post('/cadastro', async (req, res) => {
     try {
-        const { nome, email, senha } = req.body;
+        const { nome, email, senha } = req.body || {};
 
         if (!nome || !email || !senha) {
             return res.status(400).json({
@@ -91,9 +205,24 @@ app.post('/cadastro', async (req, res) => {
             });
         }
 
-        if (nome.trim().length < 3 || nome.trim().length > 120) {
+        const nomeNormalizado = nome.trim();
+        const emailNormalizado = email.trim().toLowerCase();
+
+        if (
+            nomeNormalizado.length < 3 ||
+            nomeNormalizado.length > 120
+        ) {
             return res.status(400).json({
                 erro: 'O nome deve ter entre 3 e 120 caracteres.'
+            });
+        }
+
+        const emailValido =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailNormalizado);
+
+        if (!emailValido || emailNormalizado.length > 150) {
+            return res.status(400).json({
+                erro: 'Informe um e-mail válido.'
             });
         }
 
@@ -102,8 +231,6 @@ app.post('/cadastro', async (req, res) => {
                 erro: 'A senha deve ter pelo menos 8 caracteres.'
             });
         }
-
-        const emailNormalizado = email.trim().toLowerCase();
 
         const [existente] = await db.execute(
             'SELECT id FROM usuarios WHERE email = ?',
@@ -119,55 +246,64 @@ app.post('/cadastro', async (req, res) => {
         const senhaHash = await bcrypt.hash(senha, 12);
 
         const [resultado] = await db.execute(
-            `INSERT INTO usuarios (nome, email, senha_hash)
-             VALUES (?, ?, ?)`,
-            [nome.trim(), emailNormalizado, senhaHash]
+            `INSERT INTO usuarios
+                (nome, email, senha_hash, perfil)
+             VALUES (?, ?, ?, 'cliente')`,
+            [
+                nomeNormalizado,
+                emailNormalizado,
+                senhaHash
+            ]
         );
 
-        res.status(201).json({
+        return res.status(201).json({
             mensagem: 'Cadastro realizado com sucesso!',
             usuario: {
                 id: resultado.insertId,
-                nome: nome.trim(),
-                email: emailNormalizado
+                nome: nomeNormalizado,
+                email: emailNormalizado,
+                perfil: 'cliente'
             }
         });
 
     } catch (erro) {
-        console.error(erro);
+        console.error('Erro no cadastro:', erro);
 
-        res.status(500).json({
+        if (erro.code === 'ER_DUP_ENTRY') {
+            return res.status(409).json({
+                erro: 'Este e-mail já está cadastrado.'
+            });
+        }
+
+        return res.status(500).json({
             erro: 'Não foi possível realizar o cadastro.'
         });
     }
 });
 
-// LOGIN
-
 app.post('/login', async (req, res) => {
     try {
-        const { email, senha } = req.body;
+        const { email, senha } = req.body || {};
 
-        if (!email || !senha) {
+        if (
+            typeof email !== 'string' ||
+            typeof senha !== 'string' ||
+            !email.trim() ||
+            !senha
+        ) {
             return res.status(400).json({
                 erro: 'Informe seu e-mail e sua senha.'
             });
         }
 
-        if (
-            typeof email !== 'string' ||
-            typeof senha !== 'string'
-        ) {
-            return res.status(400).json({
-                erro: 'Os dados informados são inválidos.'
-            });
-        }
+        const emailNormalizado = email.trim().toLowerCase();
 
         const [usuarios] = await db.execute(
             `SELECT id, nome, email, senha_hash, perfil
              FROM usuarios
-             WHERE email = ?`,
-            [email.trim().toLowerCase()]
+             WHERE email = ?
+             LIMIT 1`,
+            [emailNormalizado]
         );
 
         if (usuarios.length === 0) {
@@ -192,13 +328,14 @@ app.post('/login', async (req, res) => {
         const token = jwt.sign(
             {
                 id: usuario.id,
-                perfil: usuario.perfil
+                perfil: usuario.perfil,
+                jti: crypto.randomUUID()
             },
             JWT_SECRET,
             { expiresIn: '2h' }
         );
 
-        res.json({
+        return res.status(200).json({
             mensagem: 'Login realizado com sucesso!',
             token,
             usuario: {
@@ -210,17 +347,15 @@ app.post('/login', async (req, res) => {
         });
 
     } catch (erro) {
-        console.error(erro);
+        console.error('Erro no login:', erro);
 
-        res.status(500).json({
+        return res.status(500).json({
             erro: 'Não foi possível realizar o login.'
         });
     }
 });
 
-// AUTENTICAÇÃO
-
-function autenticarToken(req, res, next) {
+async function autenticarToken(req, res, next) {
     const cabecalho = req.headers.authorization;
 
     if (!cabecalho || !cabecalho.startsWith('Bearer ')) {
@@ -229,19 +364,81 @@ function autenticarToken(req, res, next) {
         });
     }
 
-    const token = cabecalho.split(' ')[1];
+    const token = cabecalho.slice(7).trim();
+
+    let usuarioToken;
 
     try {
-        req.usuario = jwt.verify(token, JWT_SECRET);
-        next();
+        usuarioToken = jwt.verify(token, JWT_SECRET);
+
     } catch (erro) {
         return res.status(401).json({
             erro: 'Sessão inválida ou expirada.'
         });
     }
+
+    if (!usuarioToken.jti) {
+        return res.status(401).json({
+            erro: 'Sessão antiga. Faça login novamente.'
+        });
+    }
+
+    try {
+        const [revogados] = await db.execute(
+            `SELECT jti
+             FROM tokens_revogados
+             WHERE jti = ?
+               AND expira_em > NOW()`,
+            [usuarioToken.jti]
+        );
+
+        if (revogados.length > 0) {
+            return res.status(401).json({
+                erro: 'Esta sessão foi encerrada. Faça login novamente.'
+            });
+        }
+
+        req.usuario = usuarioToken;
+
+        return next();
+
+    } catch (erro) {
+        console.error('Erro ao verificar sessão:', erro);
+
+        return res.status(500).json({
+            erro: 'Não foi possível verificar a autenticação.'
+        });
+    }
 }
 
-// PERFIL DO USUÁRIO
+app.post('/logout', autenticarToken, async (req, res) => {
+    try {
+
+        await db.execute(
+            'DELETE FROM tokens_revogados WHERE expira_em <= NOW()'
+        );
+
+        await db.execute(
+            `INSERT INTO tokens_revogados (jti, expira_em)
+             VALUES (?, FROM_UNIXTIME(?))`,
+            [
+                req.usuario.jti,
+                req.usuario.exp
+            ]
+        );
+
+        return res.json({
+            mensagem: 'Logout realizado com sucesso!'
+        });
+
+    } catch (erro) {
+        console.error('Erro ao realizar logout:', erro);
+
+        return res.status(500).json({
+            erro: 'Não foi possível encerrar a sessão.'
+        });
+    }
+});
 
 app.get('/perfil', autenticarToken, async (req, res) => {
     try {
@@ -261,7 +458,6 @@ app.get('/perfil', autenticarToken, async (req, res) => {
         res.json({
             usuario: usuarios[0]
         });
-
     } catch (erro) {
         console.error(erro);
 
@@ -270,8 +466,6 @@ app.get('/perfil', autenticarToken, async (req, res) => {
         });
     }
 });
-
-// HISTÓRICO DE PEDIDOS
 
 app.get('/meus-pedidos', autenticarToken, async (req, res) => {
     try {
@@ -301,7 +495,6 @@ app.get('/meus-pedidos', autenticarToken, async (req, res) => {
         const pedidos = new Map();
 
         for (const linha of resultados) {
-
             if (!pedidos.has(linha.pedido_id)) {
                 pedidos.set(linha.pedido_id, {
                     id: linha.pedido_id,
@@ -328,7 +521,6 @@ app.get('/meus-pedidos', autenticarToken, async (req, res) => {
         res.json({
             pedidos: Array.from(pedidos.values())
         });
-
     } catch (erro) {
         console.error('Erro ao buscar pedidos:', erro);
 
@@ -338,11 +530,8 @@ app.get('/meus-pedidos', autenticarToken, async (req, res) => {
     }
 });
 
-// REGISTRAR PEDIDO
-
 app.post('/pedidos', autenticarToken, async (req, res) => {
-
-    const { itens } = req.body;
+    const { itens } = req.body || {};
 
     if (!Array.isArray(itens) || itens.length === 0) {
         return res.status(400).json({
@@ -353,7 +542,6 @@ app.post('/pedidos', autenticarToken, async (req, res) => {
     const quantidades = new Map();
 
     for (const item of itens) {
-
         if (!item || typeof item !== 'object') {
             return res.status(400).json({
                 erro: 'Um dos produtos informados é inválido.'
@@ -413,7 +601,6 @@ app.post('/pedidos', autenticarToken, async (req, res) => {
         const itensPedido = [];
 
         for (const produto of produtosBanco) {
-
             const quantidade = quantidades.get(produto.codigo);
 
             if (Number(produto.estoque) < quantidade) {
@@ -463,14 +650,13 @@ app.post('/pedidos', autenticarToken, async (req, res) => {
                 subtotal,
                 desconto,
                 valorTotal,
-                'Pendente'
+                'Concluído'
             ]
         );
 
         const pedidoId = pedido.insertId;
 
         for (const item of itensPedido) {
-
             const novoEstoque =
                 Number(item.produto.estoque) - item.quantidade;
 
@@ -523,12 +709,10 @@ app.post('/pedidos', autenticarToken, async (req, res) => {
                 subtotal,
                 desconto,
                 valorTotal,
-                status: 'Pendente'
+                status: 'Concluído'
             }
         });
-
     } catch (erro) {
-
         if (conexao) {
             try {
                 await conexao.rollback();
@@ -545,20 +729,12 @@ app.post('/pedidos', autenticarToken, async (req, res) => {
         res.status(erro.status || 500).json({
             erro: erro.message || 'Não foi possível registrar o pedido.'
         });
-
     } finally {
-
         if (conexao) {
             conexao.release();
         }
     }
 });
-
-// =========================================================
-// PAINEL ADMINISTRATIVO E ESTOQUE - PESSOA 4
-// =========================================================
-
-// Verifica se o usuário é administrador
 
 async function exigirAdmin(req, res, next) {
 
@@ -593,7 +769,6 @@ const admin = express.Router();
 
 admin.use(autenticarToken, exigirAdmin);
 
-// Tratamento de erros administrativos
 
 function erroAdmin(res, erro) {
 
@@ -616,7 +791,6 @@ function erroAdmin(res, erro) {
     });
 }
 
-// Indicadores do painel administrativo
 
 admin.get('/indicadores', async (req, res) => {
 
@@ -644,7 +818,6 @@ admin.get('/indicadores', async (req, res) => {
     }
 });
 
-// Consultar categorias
 
 admin.get('/categorias', async (req, res) => {
 
@@ -661,7 +834,6 @@ admin.get('/categorias', async (req, res) => {
     }
 });
 
-// Listar produtos
 
 admin.get('/produtos', async (req, res) => {
 
@@ -678,7 +850,6 @@ admin.get('/produtos', async (req, res) => {
     }
 });
 
-// Validar os dados do produto
 
 function dadosProduto(body) {
 
@@ -727,7 +898,6 @@ function dadosProduto(body) {
     ];
 }
 
-// Cadastro de produtos
 
 admin.post('/produtos', async (req, res) => {
 
@@ -759,7 +929,6 @@ admin.post('/produtos', async (req, res) => {
     }
 });
 
-// Edição de produtos
 
 admin.put('/produtos/:id', async (req, res) => {
 
@@ -803,7 +972,6 @@ admin.put('/produtos/:id', async (req, res) => {
     }
 });
 
-// Histórico de movimentações
 
 admin.get('/estoque/historico', async (req, res) => {
 
@@ -823,7 +991,6 @@ admin.get('/estoque/historico', async (req, res) => {
     }
 });
 
-// Entrada, saída e ajuste de estoque
 
 admin.post('/estoque', async (req, res) => {
 
@@ -834,7 +1001,6 @@ admin.post('/estoque', async (req, res) => {
         motivo
     } = req.body || {};
 
-    // Validação da movimentação
 
     if (
         !Number.isInteger(produto_id) ||
@@ -881,19 +1047,16 @@ admin.post('/estoque', async (req, res) => {
 
         let novoEstoque;
 
-        // Entrada de estoque
 
         if (tipo === 'entrada') {
             novoEstoque = estoqueAtual + quantidade;
         }
 
-        // Saída de estoque
 
         else if (tipo === 'saida') {
             novoEstoque = estoqueAtual - quantidade;
         }
 
-        // Ajuste de estoque
 
         else {
             novoEstoque = quantidade;
@@ -902,7 +1065,6 @@ admin.post('/estoque', async (req, res) => {
         const quantidadeMovimentada =
             Math.abs(novoEstoque - estoqueAtual);
 
-        // Impede estoque negativo
 
         if (novoEstoque < 0) {
 
@@ -931,7 +1093,6 @@ admin.post('/estoque', async (req, res) => {
             });
         }
 
-        // Atualiza o estoque do produto
 
         await conexao.execute(
             `UPDATE produtos
@@ -940,7 +1101,6 @@ admin.post('/estoque', async (req, res) => {
             [novoEstoque, produto_id]
         );
 
-        // Registra a movimentação no histórico
 
         await conexao.execute(
             `INSERT INTO movimentacoes_estoque
@@ -984,11 +1144,8 @@ admin.post('/estoque', async (req, res) => {
     }
 });
 
-// Rotas administrativas
 
 app.use('/admin', admin);
-
-// INICIALIZAÇÃO DO SERVIDOR
 
 app.listen(3000, () => {
     console.log('Servidor rodando na porta 3000');

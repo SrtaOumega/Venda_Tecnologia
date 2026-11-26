@@ -10,7 +10,6 @@ body {
     color: #222;
 }
 
-/* Cabeçalho */
 
 .cabecalho {
     background-color: #181818;
@@ -32,7 +31,6 @@ body {
     text-decoration: underline;
 }
 
-/* Logo do Eskillows */
 
 .logo-admin {
     display: flex;
@@ -55,7 +53,6 @@ body {
     text-decoration: none;
 }
 
-/* Painel principal */
 
 .painel {
     max-width: 1200px;
@@ -72,7 +69,6 @@ body {
     margin-bottom: 25px;
 }
 
-/* Indicadores */
 
 .indicadores {
     display: grid;
@@ -104,7 +100,6 @@ body {
     color: #d97706;
 }
 
-/* Seções */
 
 .secao {
     background-color: white;
@@ -120,7 +115,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* Formulários */
 
 form {
     display: flex;
@@ -154,7 +148,6 @@ select:focus {
     outline: 2px solid #666;
 }
 
-/* Botões */
 
 button {
     padding: 12px 20px;
@@ -183,7 +176,6 @@ button:disabled {
     cursor: not-allowed;
 }
 
-/* Tabelas */
 
 table {
     width: 100%;
@@ -207,7 +199,6 @@ tbody tr:hover {
     background-color: #f5f5f5;
 }
 
-/* Mensagens de sucesso e erro */
 
 #mensagem:empty {
     display: none;
@@ -235,7 +226,6 @@ tbody tr:hover {
     border-left: 5px solid #dc2626;
 }
 
-/* Responsividade */
 
 @media (max-width: 768px) {
 

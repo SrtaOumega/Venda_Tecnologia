@@ -22,20 +22,32 @@
         perfilElemento.textContent = usuario.perfil || "Cliente";
     }
 
-    // Exibe o botão somente para administradores
-
     function verificarAdministrador(usuario) {
         if (botaoAdmin) {
             botaoAdmin.hidden = usuario.perfil !== "admin";
         }
     }
 
-    function sairDaConta() {
+    async function sairDaConta() {
+    try {
+        if (token) {
+            await fetch(`${API_URL}/logout`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+        }
+
+    } catch (erro) {
+        console.error('Erro ao encerrar sessão:', erro);
+
+    } finally {
         localStorage.removeItem("tokenEskillows");
         localStorage.removeItem("usuarioEskillows");
 
         window.location.href = "login.html";
-    }
+    }}
 
     if (botaoSair) {
         botaoSair.addEventListener("click", sairDaConta);
@@ -56,8 +68,6 @@
 
             return;
         }
-
-        // Mostra os dados salvos enquanto consulta o servidor.
 
         try {
             const usuarioSalvo = JSON.parse(
@@ -103,7 +113,6 @@
 
             mostrarUsuario(resultado.usuario);
 
-            // Confirma a permissão pelo servidor
 
             verificarAdministrador(resultado.usuario);
 
